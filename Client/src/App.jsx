@@ -1,37 +1,18 @@
-import React,{useEffect, useState} from "react";
-import { io } from "socket.io-client";
+import { Routes, Route } from 'react-router-dom';
+import Chessgame from './components/Chessgame';
+import Home from './components/Home';
+// import GameHistory from './components/GameHistory';
+// import Settings from './components/Settings';
 
-const App = () => {
-  const [connected, setConnected] = useState(false)
-  const [socket, setSocket] = useState(null)
-  useEffect(() => {
-    // Connect to your Socket.IO server
-    const socketInstance = io('http://localhost:3000');
-    setSocket(socketInstance);
-
-    // Listen for connection events
-    socketInstance.on('connect', () => {
-      console.log('Connected to server');
-      setConnected(true);
-    });
-
-    socketInstance.on('disconnect', () => {
-      console.log('Disconnected from server');
-      setConnected(false);
-    });
-
-    // Cleanup on component unmount
-    return () => {
-      socketInstance.disconnect();
-    };
-  }, []);
-
+function App() {
   return (
-   <div>
-      <h1>Socket.IO React Client</h1>
-      <p>Status: {connected ? 'Connected' : 'Disconnected'}</p>
-  </div>
-
-)};
-
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/game" element={<Chessgame />} />
+      {/* <Route path="/history" element={<GameHistory />} />
+      <Route path="/settings" element={<Settings />} /> */}
+      {/* <Route path="*" element={<NotFound />} /> */}
+    </Routes>
+  );
+}
 export default App;
